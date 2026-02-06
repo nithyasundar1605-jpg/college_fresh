@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <h1>College Event Management System - API Test</h1>
+    <button onclick="testRegistration()">Test Registration</button>
+    <button onclick="testLogin()">Test Login</button>
+    <div id="result"></div>
+
+    <script>
+        async function testRegistration() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = 'Testing registration...';
+            
+            try {
+                const response = await axios.post('http://localhost:8080/college_fresh/backend/auth/register.php', {
+                    name: 'testuser',
+                    email: 'test@example.com',
+                    password: 'password123',
+                    confirm_password: 'password123'
+                });
+                
+                resultDiv.innerHTML += '<br>Registration Response: ' + JSON.stringify(response.data, null, 2);
+            } catch (error) {
+                resultDiv.innerHTML += '<br>Error: ' + error.response?.data || error.message;
+            }
+        }
+
+        async function testLogin() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = 'Testing login...';
+            
+            try {
+                const response = await axios.post('http://localhost:8080/college_fresh/backend/auth/login.php', {
+                    email: 'admin@example.com',
+                    password: 'admin123'
+                });
+                
+                resultDiv.innerHTML += '<br>Login Response: ' + JSON.stringify(response.data, null, 2);
+            } catch (error) {
+                resultDiv.innerHTML += '<br>Error: ' + error.response?.data || error.message;
+            }
+        }
+    </script>
+</body>
+</html>

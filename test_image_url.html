@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Advanced Image Test</title>
+    <style>
+        .test-box {
+            border: 2px solid #ccc;
+            padding: 10px;
+            margin: 10px;
+        }
+
+        .success {
+            border-color: green;
+            background: #e6ffe6;
+        }
+
+        .error {
+            border-color: red;
+            background: #ffe6e6;
+        }
+
+        img {
+            max-width: 200px;
+            display: block;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Advanced Image Accessibility Diagnostic</h1>
+
+    <div class="test-box">
+        <h3>1. Relative Path (Local File Access)</h3>
+        <p>URL: <code>uploads/profile_pics/profile_9_1770043133.jpeg</code></p>
+        <img src="uploads/profile_pics/profile_9_1770043133.jpeg" alt="Relative Path Failed">
+    </div>
+
+    <div class="test-box">
+        <h3>2. Full Localhost:8080 URL</h3>
+        <p>URL: <code>http://localhost:8080/college_fresh/uploads/profile_pics/profile_9_1770043133.jpeg</code></p>
+        <img src="http://localhost:8080/college_fresh/uploads/profile_pics/profile_9_1770043133.jpeg"
+            alt="Port 8080 Failed">
+    </div>
+
+    <div class="test-box">
+        <h3>3. Direct uploads Path (Maybe root is college_fresh?)</h3>
+        <p>URL: <code>http://localhost:8080/uploads/profile_pics/profile_9_1770043133.jpeg</code></p>
+        <img src="http://localhost:8080/uploads/profile_pics/profile_9_1770043133.jpeg" alt="Direct Path Failed">
+    </div>
+
+    <div class="test-box">
+        <h3>4. IP Address Version</h3>
+        <p>URL: <code>http://127.0.0.1:8080/college_fresh/uploads/profile_pics/profile_9_1770043133.jpeg</code></p>
+        <img src="http://127.0.0.1:8080/college_fresh/uploads/profile_pics/profile_9_1770043133.jpeg"
+            alt="IP Address Failed">
+    </div>
+
+    <p>Please tell me which (if any) box shows the image correctly.</p>
+</body>
+
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Connection Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 50px auto; padding: 20px; }
+        .section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .success { background: #d4edda; border-color: #c3e6cb; }
+        .error { background: #f8d7da; border-color: #f5c6cb; }
+        .info { background: #d1ecf1; border-color: #bee5eb; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+        input { padding: 8px; margin: 5px; width: 200px; }
+        pre { background: #f8f9fa; padding: 10px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>API Connection Test</h1>
+    
+    <div class="section info">
+        <h3>Current Configuration</h3>
+        <p><strong>Frontend:</strong> http://localhost:3000</p>
+        <p><strong>Backend:</strong> http://localhost:8080/college_fresh/backend</p>
+        <p><strong>Database:</strong> Running on localhost:3306</p>
+    </div>
+    
+    <div class="section" id="registration-test">
+        <h3>Registration Test</h3>
+        <input type="text" id="reg-name" placeholder="Name" value="Test User">
+        <input type="email" id="reg-email" placeholder="Email" value="testuser@example.com">
+        <input type="password" id="reg-password" placeholder="Password" value="password123">
+        <input type="password" id="reg-confirm" placeholder="Confirm Password" value="password123">
+        <button onclick="testRegistration()">Test Registration</button>
+        <div id="reg-result"></div>
+    </div>
+    
+    <div class="section" id="login-test">
+        <h3>Login Test</h3>
+        <input type="email" id="login-email" placeholder="Email" value="admin@college.edu">
+        <input type="password" id="login-password" placeholder="Password" value="Admin@123">
+        <button onclick="testLogin()">Test Login</button>
+        <div id="login-result"></div>
+    </div>
+    
+    <div class="section" id="database-test">
+        <h3>Database Test</h3>
+        <button onclick="testDatabase()">Test Database Connection</button>
+        <div id="db-result"></div>
+    </div>
+
+    <script>
+        async function testRegistration() {
+            const resultDiv = document.getElementById('reg-result');
+            resultDiv.innerHTML = '<p>Testing registration...</p>';
+            
+            const data = {
+                name: document.getElementById('reg-name').value,
+                email: document.getElementById('reg-email').value,
+                password: document.getElementById('reg-password').value,
+                confirm_password: document.getElementById('reg-confirm').value
+            };
+            
+            try {
+                const response = await fetch('http://localhost:8080/college_fresh/backend/auth/register.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                const status = response.status;
+                
+                if (status >= 200 && status < 300) {
+                    resultDiv.innerHTML = `<div class="success"><h4>Registration Success (${status})</h4><pre>${JSON.stringify(result, null, 2)}</pre></div>`;
+                } else {
+                    resultDiv.innerHTML = `<div class="error"><h4>Registration Failed (${status})</h4><pre>${JSON.stringify(result, null, 2)}</pre></div>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error"><h4>Network Error</h4><p>${error.message}</p></div>`;
+            }
+        }
+        
+        async function testLogin() {
+            const resultDiv = document.getElementById('login-result');
+            resultDiv.innerHTML = '<p>Testing login...</p>';
+            
+            const data = {
+                email: document.getElementById('login-email').value,
+                password: document.getElementById('login-password').value
+            };
+            
+            try {
+                const response = await fetch('http://localhost:8080/college_fresh/backend/auth/login.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                const status = response.status;
+                
+                if (status >= 200 && status < 300) {
+                    resultDiv.innerHTML = `<div class="success"><h4>Login Success (${status})</h4><pre>${JSON.stringify(result, null, 2)}</pre></div>`;
+                } else {
+                    resultDiv.innerHTML = `<div class="error"><h4>Login Failed (${status})</h4><pre>${JSON.stringify(result, null, 2)}</pre></div>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error"><h4>Network Error</h4><p>${error.message}</p></div>`;
+            }
+        }
+        
+        async function testDatabase() {
+            const resultDiv = document.getElementById('db-result');
+            resultDiv.innerHTML = '<p>Testing database connection...</p>';
+            
+            try {
+                const response = await fetch('http://localhost:8080/college_fresh/backend/auth/login.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: 'admin@college.edu',
+                        password: 'Admin@123'
+                    })
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    resultDiv.innerHTML = `<div class="success"><h4>Database Connection OK</h4><p>Can connect to database and authenticate users.</p></div>`;
+                } else {
+                    resultDiv.innerHTML = `<div class="error"><h4>Database Connection Failed</h4><p>Cannot connect to database.</p></div>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error"><h4>Database Connection Error</h4><p>${error.message}</p></div>`;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+UPDATE users SET password = '$2y$10$/AFJjhTlx6oDtFFAFrbhTOu.DLScXzvtH30fzIere11x778I56N.u' WHERE email = 'admin@college.edu';

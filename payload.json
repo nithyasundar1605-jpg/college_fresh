@@ -1,0 +1,10 @@
+{
+    "name": "Test User 2",
+    "email": "test_payload@example.com",
+    "password": "password123",
+    "college_name": "Test College",
+    "phone_number": "1234567890",
+    "address": "123 St",
+    "course_name": "MCA",
+    "year_of_study": "2"
+}
