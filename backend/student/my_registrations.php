@@ -19,5 +19,7 @@ if ($user_id) {
 } else {
     http_response_code(400);
     echo json_encode(['message' => 'User ID required']);
+
+    
 }
 ?>
